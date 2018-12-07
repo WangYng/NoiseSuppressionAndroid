@@ -47,10 +47,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        Button buttonProcess = findViewById(R.id.ns_button);
-        buttonProcess.setOnClickListener(this);
-
+        {
+            Button buttonProcess = findViewById(R.id.ns_button1);
+            buttonProcess.setOnClickListener(this);
+        }
+        {
+            Button buttonProcess = findViewById(R.id.ns_button2);
+            buttonProcess.setOnClickListener(this);
+        }
+        {
+            Button buttonProcess = findViewById(R.id.ns_button3);
+            buttonProcess.setOnClickListener(this);
+        }
+        {
+            Button buttonProcess = findViewById(R.id.ns_button4);
+            buttonProcess.setOnClickListener(this);
+        }
         Button origin = findViewById(R.id.origin_button);
         origin.setOnClickListener(this);
     }
@@ -60,30 +72,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.origin_button) {
             playWavFile(testWavFile.getAbsolutePath());
 
-        }else if (v.getId() == R.id.ns_button) {
-            v.setEnabled(false);
-            final long startTime = SystemClock.elapsedRealtime();
+        }else if (v.getId() == R.id.ns_button1) {
+            noisePressionProcess(0);
 
-            new Thread(){
-                @Override
-                public void run() {
-                    WebRTCNoiseSuppression.process(testWavFile.getAbsolutePath(), outputFile.getAbsolutePath(), 1);
-                    
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            v.setEnabled(true);
+        }else if (v.getId() == R.id.ns_button2) {
+            noisePressionProcess(1);
 
-                            long endTime = SystemClock.elapsedRealtime();
-                            TextView textView = findViewById(R.id.ns_duration_textview);
-                            textView.setText("降噪耗时: " + (endTime - startTime) + "ms");
+        }else if (v.getId() == R.id.ns_button3) {
+            noisePressionProcess(2);
 
-                            playWavFile(outputFile.getAbsolutePath());
-                        }
-                    });
-                }
-            }.start();
+        }else if (v.getId() == R.id.ns_button4) {
+            noisePressionProcess(3);
         }
+    }
+
+    protected void noisePressionProcess(final int level) {
+        final long startTime = SystemClock.elapsedRealtime();
+
+        new Thread(){
+            @Override
+            public void run() {
+                WebRTCNoiseSuppression.process(testWavFile.getAbsolutePath(), outputFile.getAbsolutePath(), level);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        long endTime = SystemClock.elapsedRealtime();
+                        TextView textView = findViewById(R.id.ns_duration_textview);
+                        textView.setText("降噪耗时: " + (endTime - startTime) + "ms");
+
+                        playWavFile(outputFile.getAbsolutePath());
+                    }
+                });
+            }
+        }.start();
     }
 
     protected void playWavFile(String fileName)

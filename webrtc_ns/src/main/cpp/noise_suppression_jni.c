@@ -56,7 +56,7 @@ static int16_t *wavRead_int16(const char *filename, uint32_t *sampleRate, uint64
 }
 
 enum nsLevel {
-    kLow = 1,
+    kLow = 0,
     kModerate,
     kHigh,
     kVeryHigh
