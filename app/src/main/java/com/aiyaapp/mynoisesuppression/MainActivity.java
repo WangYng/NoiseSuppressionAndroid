@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         testWavFile =  new File(getExternalCacheDir(), "test.wav");
-        outputFile = new File(getExternalCacheDir(), "soundtouch-output.wav");
+        outputFile = new File(getExternalCacheDir(), "output.wav");
 
         // 把asserts/webrtc_ns_test.wav 文件转存到 cache/test.wav
         try {
@@ -73,20 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             playWavFile(testWavFile.getAbsolutePath());
 
         }else if (v.getId() == R.id.ns_button1) {
-            noisePressionProcess(0);
+            noiseSuppression(0);
 
         }else if (v.getId() == R.id.ns_button2) {
-            noisePressionProcess(1);
+            noiseSuppression(1);
 
         }else if (v.getId() == R.id.ns_button3) {
-            noisePressionProcess(2);
+            noiseSuppression(2);
 
         }else if (v.getId() == R.id.ns_button4) {
-            noisePressionProcess(3);
+            noiseSuppression(3);
         }
     }
 
-    protected void noisePressionProcess(final int level) {
+    protected void noiseSuppression(final int level) {
         final long startTime = SystemClock.elapsedRealtime();
 
         new Thread(){
